@@ -36,7 +36,7 @@ color: green
 
 ## 데이터 기반 작성 원칙 (환각 방지 — 최우선)
 - **확보된 데이터에서만** 사실을 가져온다. `slack-files/`·`reference/`·첨부 문서가 근거.
-- **작성 전 델타를 먼저 본다** — `python3 ~/Documents/Team_Lead/scripts/delta.py --project <id>` →
+- **작성 전 델타를 먼저 본다** — `python3 <delta-tool>/delta.py --project <id>` →
   `.proj-sync/delta.md`. 지난 점검 이후 발주처 회신·합의·요구 변경이 있었는지 확인하고 반영한다.
   로컬 파일만 보고 쓰면 **이미 바뀐 사실을 초안에 굳혀 넣게 된다**(2026-08-03 사고 5건).
   다만 워터마크 전진(`--commit`)은 PL 이 하지 않는다 — 점검 주체는 PM 이다.

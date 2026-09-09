@@ -68,7 +68,7 @@ knowledge/
 │   │       ├── detail.md             # 세부요구 5개
 │   │       ├── kind__기능/           # (빈 마커 폴더=분류)
 │   │       ├── 담당__주관사/
-│   │       └── _axon/ → toc__III-1-1, 배점__기능15
+│   │       └── _axon/ → toc__III-1-1            # req→page 역간선 (배점은 _mirror/by_배점)
 │   └── toc/
 │       └── III__기술및기능/1__기능요구사항/1-1__R&D지식탐색/
 │           └── _axon/ → req__SFR-001 … req__SFR-008, PLR-001..005
@@ -77,11 +77,13 @@ knowledge/
 │   ├── by_담당/{주관사,참여사A,참여사B,공동}/
 │   └── by_배점/{기능15,데이터10,보안3,…}/
 ├── _axon/  by_page/  (page_id → req·전략·자산 역링크)
+├── _LINKMODE        # symlink | file — 심링크 불가 환경(윈도우)에서는 간선이 <이름>.link 파일
 └── ai_context_guide.txt   # "요구사항 근거는 ls knowledge/quark/req/{ID}__*/, 목차는 knowledge/quark/toc/…"
 ```
 
 - **draft 에이전트 사용법**(RAG 없이): `tree knowledge/quark/toc/III__기술및기능/1__기능요구사항/1-1__*/_axon` → 링크된 req 확인 → `cat knowledge/quark/req/SFR-001__*/{summary,quote,detail}.md` → `ls _mirror/by_담당/주관사` → 본문 작성. **환각 0%(실물 폴더)·토큰 90%↓(target-jump)**.
 - **부수효과⊥인지(A3)**: `docquark.mjs`(폴더 생성=스크립트) ⊥ draft 에이전트(탐색·작성=인지).
+- **양방향 간선**: page→req 와 req→page 를 모두 materialize 한다. 한쪽만 있으면 역방향 질의가 전체 스캔이 된다. `tests/test_docquark_graph.sh` 가 양방향·무결성경고·링크모드를 회귀로 막는다.
 
 ---
 

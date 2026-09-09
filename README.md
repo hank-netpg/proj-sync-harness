@@ -8,7 +8,7 @@ Built as a personal project to solve my own problem: running ~20 concurrent prog
 where the real failure mode was never "we didn't know the rule", it was
 *"we believed we had met it, and hadn't."*
 
-**v1.21.0** · 3 agents · 21 commands · 25 skills · 11 test suites · MIT
+**v1.21.0** · 3 agents · 19 commands · 21 skills · 12 test suites · ~9,800 LOC · MIT
 · [Korean README](README.ko.md) · [Architecture](docs/ARCHITECTURE.md) · [Diagrams](docs/DIAGRAMS.md)
 
 > This is a **sanitized public mirror** — see [SANITIZATION.md](SANITIZATION.md).
@@ -55,7 +55,7 @@ because principles are not violated out of ignorance.
 |---|---|
 | `plugin/ax/agents/` | `pm` (management) · `pl` (drafting) · `pp` (proposal orchestrator) |
 | `plugin/ax/commands/` | slash commands — `init`, `sync`, `report`, `inbox`, `phase`, `doctor`, … |
-| `plugin/ax/skills/` | 25 skills; cognitive ones carry `prompt.md` + a JSON output `schema.json` |
+| `plugin/ax/skills/` | 21 skills; the 5 cognitive ones carry `prompt.md` + a JSON output `schema.json` |
 | `plugin/ax/scripts/` | side-effect entry points — parsers, builders (xlsx/hwpx/pptx), connectors, gates |
 | `plugin/ax/templates/` | deterministic folder spec, config template, nine principles |
 | `docs/design/` | design records: principles, orchestration spec, pipeline design |

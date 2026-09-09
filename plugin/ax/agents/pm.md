@@ -40,9 +40,9 @@ IP-AX 비즈니스실의 사업관리를 총괄한다. 멤버는 수준이 다�
 ### 점검은 델타부터 — 전수 조회 금지 (필수)
 
 ```bash
-python3 ~/Documents/Team_Lead/scripts/delta.py --project <project_id>   # → .proj-sync/delta.md
+python3 <delta-tool>/delta.py --project <project_id>   # → .proj-sync/delta.md
 # 판정을 마친 뒤에만
-python3 ~/Documents/Team_Lead/scripts/delta.py --project <project_id> --commit
+python3 <delta-tool>/delta.py --project <project_id> --commit
 ```
 
 - `delta.md` 는 **지난 점검(`.proj-sync/checkpoint.json`) 이후 바뀐 것만** 담는다 —

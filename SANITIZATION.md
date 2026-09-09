@@ -18,3 +18,6 @@ Removed or replaced:
 
 No credentials, API tokens, or workspace IDs were present in the source
 repository; it holds the tool only, never a project's config or deliverables.
+
+- An external delta helper the agents call is referenced as `<delta-tool>/delta.py`;
+  it lives outside this repository and is not included.

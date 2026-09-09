@@ -357,6 +357,16 @@ else
   printf '  \xe2\x84\xb9 Node.js 미설치 — docquark(지식맵) 미동작\n'
   case "$OS" in mac) fix "brew install node";; *) fix "sudo apt install nodejs (또는 nodejs.org, v18+)";; esac
 fi
+# 지식맵 간선은 심볼릭 링크다 — 윈도우는 개발자 모드/관리자 권한이 없으면 만들지 못한다.
+#   못 만들면 docquark 가 <이름>.link 파일로 내려간다(반쪽 그래프가 되지는 않는다).
+#   다만 순회법이 달라지므로 미리 알린다 — 조용히 바뀌면 에이전트가 "간선 없음" 을 "관계 없음" 으로 읽는다.
+_LP="$(mktemp -d)"
+if ln -s target "$_LP/link" 2>/dev/null; then
+  ok "심볼릭 링크: 사용 가능 (지식맵 간선)"
+else
+  printf '  \xe2\x84\xb9 심볼릭 링크 불가 — 지식맵 간선은 .link 파일로 생성됩니다 (순회: cat <이름>.link)\n'
+fi
+rm -rf "$_LP"
 # Python 패키지 (build-deck·hitl·회의록)
 if [ -n "$PS_PY" ]; then
   for mod in "pptx:python-pptx:build-deck(PPTX)" "yaml:PyYAML:hitl_scan·회의록·전제" "lxml:lxml:회의록 HWPX"; do
