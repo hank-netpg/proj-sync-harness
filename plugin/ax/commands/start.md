@@ -21,7 +21,7 @@ bash ${CLAUDE_PLUGIN_ROOT}/scripts/registry.sh clone <id>
 
 ## 3단계 — 자격증명 (토큰 입력 불필요)
 - **GitHub**: `gh auth login` 1회(브라우저). 레지스트리·clone·push·**Slack 토큰 자동조회**까지 공용.
-- **Slack 봇 토큰**: 직접 입력하지 않습니다. `/ax:auth`(또는 doctor/sync가 자동)가 private repo에서 가져와 `~/.proj-sync/credentials`에 캐시 → ax-harness 멤버면 끝.
+- **Slack 봇 토큰**: 직접 입력하지 않습니다. `/ax:auth`(또는 doctor/sync가 자동)가 private repo에서 가져와 `~/.proj-sync/credentials`에 캐시 → 조직 멤버면 끝.
   - 자동조회가 막히면(권한 등) `/ax:auth` 안내를 따르거나, 관리자에게 토큰 1회 전달받아 `auth.sh set xoxb-…`.
 - **Notion**: 입력할 토큰이 없습니다 — 게시는 **본인의 claude.ai Notion 커넥터**(각자 1회 연동, `/mcp` 로 확인)가 합니다.
 - **Google Drive**: rclone(본인 Google 계정) — 사업 폴더에서 `gdrive_sync.sh setup-remote` 1회(브라우저 인증). 미설정이면 `/ax:doctor` 가 안내합니다.

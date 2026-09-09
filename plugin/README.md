@@ -16,7 +16,7 @@ AX 팀 내부용 Claude Code 플러그인 마켓플레이스입니다. 현재 **
 ## 설치 — Git 저장소 방식 (관리자/업데이트 일괄 관리용)
 
 ```bash
-claude plugin marketplace add hankeon/proj-sync-harness   # PRIVATE repo: gh 인증(ax-harness 멤버) 필요
+claude plugin marketplace add hank-netpg/proj-sync-harness   # PRIVATE repo: gh 인증(조직 멤버) 필요
 claude plugin install ax@ax-harness
 # 이후 업데이트:  claude plugin marketplace update ax-harness && claude plugin update ax@ax-harness
 ```

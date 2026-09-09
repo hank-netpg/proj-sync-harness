@@ -174,7 +174,7 @@ for pg in toc.pages (담당·배점 우선순위 정렬):
 - 입력 컨텍스트가 **해당 page의 req 폴더만**(전체 아님) → 토큰 최소·환각 0(quote.md 원문만 인용).
 
 ### D4. 스킬 배치 위치 (레포 분리 — 결정3)
-- 스킬 정의(SKILL.md·prompt.md·schema.json)·스크립트·빌더 = **도구 repo**(hankeon/proj-sync-harness plugin `src/`).
+- 스킬 정의(SKILL.md·prompt.md·schema.json)·스크립트·빌더 = **도구 repo**(hank-netpg/proj-sync-harness plugin `src/`).
 - 산출 데이터(requirements.json·pages·knowledge) = **사업 repo**(ax-{proj}-doc). 도구는 CWD 사업 폴더에 산출(B1).
 
 ---

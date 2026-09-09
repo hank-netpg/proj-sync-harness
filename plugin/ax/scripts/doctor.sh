@@ -166,11 +166,11 @@ if [ -z "$PS_SLACK_TOKEN" ] || [ "$PS_SLACK_TOKEN" = "__GH_AUTH__" ]; then
   if [ -n "$ENV_SLACK_RAW" ] && ps_is_placeholder "$ENV_SLACK_RAW"; then
     # 예시값은 이제 폴백을 막지 않는다(issue #20). 여기까지 왔다는 건 폴백까지 전부 실패했다는 뜻.
     ng "Slack: 봇 토큰 미설정 — .env 는 예시값이고, 전역 캐시·팀 저장소 조회도 실패했습니다"
-    fix "팀 공용 토큰 자동 조회:  gh auth login  →  /ax:auth  (토큰 입력 불필요, ax-harness 멤버)"
+    fix "팀 공용 토큰 자동 조회:  gh auth login  →  /ax:auth  (토큰 입력 불필요, 조직 멤버)"
     fix "개인 토큰을 쓰려면 $ENV_PATH 의 PROJ_SYNC_SLACK_BOT_TOKEN 에 실제 xoxb- 토큰을 넣으세요."
   else
     ng "Slack: 봇 토큰 미설정 (자동 조회도 실패)"
-    fix "GitHub 로그인 후 자동 설정:  gh auth login  →  /ax:auth  (토큰 입력 불필요, ax-harness 멤버 자동 조회)"
+    fix "GitHub 로그인 후 자동 설정:  gh auth login  →  /ax:auth  (토큰 입력 불필요, 조직 멤버 자동 조회)"
     fix "또는 직접: $ENV_PATH 의 PROJ_SYNC_SLACK_BOT_TOKEN= 뒤에 xoxb- 토큰 입력."
   fi
 elif [ "${PS_SLACK_TOKEN#xoxb-}" = "$PS_SLACK_TOKEN" ]; then

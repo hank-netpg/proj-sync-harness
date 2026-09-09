@@ -80,7 +80,7 @@
 체계를 만들지 않는다. 하나면 관리되고, 둘이면 어긋난다.
 
 **구현.**
-- **토큰은 배포본에 없다.** private secrets repo(`hankeon/proj-sync-harness-secrets`)에만 있고,
+- **토큰은 배포본에 없다.** private secrets repo(`<your-org>/proj-sync-secrets`)에만 있고,
   `ps_fetch_team_token`(`lib/config.sh`)이 `gh` 인증으로 꺼내 전역 캐시에 둔다.
   org 멤버가 아니면 조회 자체가 실패한다 — 이것이 경계다
 - **해석 순서**: `.env`/환경변수 → 전역 캐시(`~/.proj-sync/credentials`) → secrets repo 자동 조회

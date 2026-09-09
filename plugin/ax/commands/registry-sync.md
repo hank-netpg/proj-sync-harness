@@ -21,7 +21,7 @@ Notion **수행 프로젝트 DB**(사람용 SSOT)를 GitHub **`registry.json`**(
 3. `version:1`, `updated:<오늘>`, `projects:[…]` 형태의 완성 JSON을 만듭니다.
 4. 레지스트리 repo를 클론하여 `registry.json`을 덮어쓰고 commit·push 합니다:
    ```
-   git clone https://github.com/hankeon/proj-sync-harness-registry.git /tmp/psr
+   git clone https://github.com/<your-org>/proj-sync-registry.git /tmp/psr
    # registry.json 갱신 후
    cd /tmp/psr && git add -A && git commit -m "registry: Notion DB 동기화" && git push
    ```

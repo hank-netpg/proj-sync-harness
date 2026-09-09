@@ -204,7 +204,7 @@ echo "[proj-sync] reference/management/ 스캐폴드 (4대 관리 schedule·risk
 # 셔임 생성·갱신 (~/.proj-sync/bin/ax — tasks.json 이 이 경로를 호출)
 ps_write_shim
 # 팀 토큰(Slack) 자동 확보 — 이미 캐시돼 있으면 네트워크 호출 없이 통과.
-#   종전에는 ".env 토큰 입력" 안내로 끝나 수동 입력을 유도했으나, ax-harness 멤버면 입력이 불필요하다.
+#   종전에는 ".env 토큰 입력" 안내로 끝나 수동 입력을 유도했으나, 조직 멤버면 입력이 불필요하다.
 #   Notion 은 팀 토큰이 아니다 — 로그인한 사용자의 claude.ai 커넥터가 게시한다(v1.21.0).
 if type ps_ensure_team_tokens >/dev/null 2>&1 && ps_ensure_team_tokens; then
   echo "[proj-sync] Slack 팀 토큰 확보됨 (${PS_GLOBAL_CRED:-$HOME/.proj-sync/credentials}) — 토큰 입력 불요"

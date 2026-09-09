@@ -104,4 +104,4 @@ git config core.hooksPath .githooks
 
 ---
 
-*출처: `CHANGELOG.md` · [Release v1.20.3](https://github.com/hankeon/proj-sync-harness/releases/tag/v1.20.3) · 원본 `docs/notion/whats-new.md`*
+*출처: `CHANGELOG.md` · [Release v1.20.3](https://github.com/hank-netpg/proj-sync-harness/releases/tag/v1.20.3) · 원본 `docs/notion/whats-new.md`*

@@ -47,7 +47,7 @@
   "knowledge": { "engine": "quarkify", "quark_dir": "knowledge",
                  "asset_globs": ["reference/실적/**/*.md"] },
   "dispatch": { "auto": true, "confidence_threshold": 0.75 },  // §5 게이트
-  "authorization": { "worker_account": "self", "leader_registry": "hankeon/proj-sync-harness-registry" } // 결정2
+  "authorization": { "worker_account": "self", "leader_registry": "<your-org>/proj-sync-registry" } // 결정2
 }
 ```
 
@@ -193,7 +193,7 @@ report(evaluation.json + Δ추이)
 ## 8. Leader-Worker registry 스키마 (계정별 — 결정2)
 
 - **Worker**(팀원 계정별 Claude): 각자 담당 사업 폴더에서 revision 매일 commit-push. Issue를 registry에 push.
-- **Leader**(registry aggregation): `hankeon/proj-sync-harness-registry`의 `registry.json` 확장 — 프로젝트별 요약 aggregation.
+- **Leader**(registry aggregation): `<your-org>/proj-sync-registry`의 `registry.json` 확장 — 프로젝트별 요약 aggregation.
 ```jsonc
 { "projects":[ { "id":"bio-global-ai", "repo":"ax-harness/ax-bio-global-ai-doc",
     "phase":"제안", "worker":"worker1",

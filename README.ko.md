@@ -77,10 +77,10 @@ gh release create "v$VER" proj-sync.zip proj-sync-dist.zip --title "v$VER" --not
 - **업데이트(zip 방식, 기본)**: 새 `proj-sync.zip` 재실행 → Claude Code 재시작
 - **업데이트(git-url 방식)**: 마켓플레이스를 **사내 git-url 로 등록한 경우에만** 동작 —
   ```bash
-  claude plugin marketplace add hankeon/proj-sync-harness   # 최초 1회 (PRIVATE repo: gh 인증 필요)
+  claude plugin marketplace add hank-netpg/proj-sync-harness   # 최초 1회 (PRIVATE repo: gh 인증 필요)
   claude plugin install ax@ax-harness                  # 설치
   # 이후 업데이트:  claude plugin marketplace update ax-harness && claude plugin update ax@ax-harness
   ```
-  > ⚠️ zip 의 `install.sh` 로 설치한 경우 마켓플레이스 소스가 **로컬 디렉토리**라 위 `update` 가 GitHub 최신본을 못 가져온다. git-url 자동 업데이트를 쓰려면 위 `add hankeon/proj-sync-harness` 로 **다시 등록**해야 한다.
+  > ⚠️ zip 의 `install.sh` 로 설치한 경우 마켓플레이스 소스가 **로컬 디렉토리**라 위 `update` 가 GitHub 최신본을 못 가져온다. git-url 자동 업데이트를 쓰려면 위 `add hank-netpg/proj-sync-harness` 로 **다시 등록**해야 한다.
 
 자세한 절차는 [GUIDE.md](GUIDE.md) · [MANUAL.md](MANUAL.md) 참고.

@@ -149,4 +149,4 @@ bash ${CLAUDE_PLUGIN_ROOT}/scripts/init.sh
 ## 공통 마무리
 `.env` 토큰은 입력 불필요(Slack 자동조회 · Notion 은 각자 커넥터 · Drive 는 rclone) → `/ax:doctor` → `/ax:sync`.
 
-> ℹ️ 목록(레지스트리 `registry.json`)은 Notion **수행 프로젝트 DB**의 미러입니다. 비어 보이면 `/ax:registry-sync`로 최신화하거나 gh 로그인(ax-harness 멤버)·repo 접근을 확인하세요.
+> ℹ️ 목록(레지스트리 `registry.json`)은 Notion **수행 프로젝트 DB**의 미러입니다. 비어 보이면 `/ax:registry-sync`로 최신화하거나 gh 로그인(조직 멤버)·repo 접근을 확인하세요.

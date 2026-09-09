@@ -7,7 +7,7 @@
 
 - **ax** = 사업 산출물을 GitHub(원본 SSOT) ↔ Slack ↔ Notion 으로 동기화하는 Claude Code 플러그인.
 - 합류 흐름: **설치 → 수행 프로젝트 DB에서 선택 → 동기화 → 업무 시작**.
-- 사용자 입력은 사실상 `gh auth login` 한 번뿐 — **Slack 토큰은 입력하지 않습니다**(ax-harness 멤버면 자동 조회).
+- 사용자 입력은 사실상 `gh auth login` 한 번뿐 — **Slack 토큰은 입력하지 않습니다**(조직 멤버면 자동 조회).
 - 설치·다운로드·push 는 **터미널에서 직접**, 분석·작성·점검은 **에이전트(채팅)**.
 
 ## 0. 절차 한눈에 (흐름도)
@@ -15,7 +15,7 @@
 ```mermaid
 flowchart TD
     A["proj-sync.zip 압축해제 → bash proj-sync/install.sh → Claude Code 완전 재시작"] --> B["/ax:setup — 도구 점검·자동설치(mac)"]
-    B --> C["gh auth login (ax-harness 멤버, 최초 1회)"]
+    B --> C["gh auth login (조직 멤버, 최초 1회)"]
     C --> D{"/ax:start — 수행 프로젝트 DB에서 선택"}
     D -->|기존 있음| E["repo clone (config·문서 자동 확보)"]
     D -->|신규·PM| F["/ax:init — 생성 + 레지스트리·DB 등록"]
@@ -37,7 +37,7 @@ flowchart TD
 
 | 전제 | 왜 필요 | 안 될 때 |
 |---|---|---|
-| **ax-harness GitHub org 멤버** | clone·레지스트리·Slack 토큰 자동조회의 기반 | 엔지니어링팀 **관리자**(admin@example.com)에게 멤버 등록 요청 |
+| **조직 GitHub org 멤버** | clone·레지스트리·Slack 토큰 자동조회의 기반 | 엔지니어링팀 **관리자**(admin@example.com)에게 멤버 등록 요청 |
 | **repo write 권한** | `github-push`(저장)에 필요 (멤버여도 read-only면 거부) | 관리자에게 해당 repo write 권한 요청 |
 | **(PM) 채널에 `@AX-E` 봇 초대** | `slack-pull/push` 동작 전제 | 프로젝트 채널에서 `/invite @AX-E` (비공개는 채널 멤버가 초대) |
 | **(선택) Notion 커넥터** | 수행 프로젝트 DB·문서함 사용 시 | claude.ai 에서 Notion 커넥터 1회 연동 |
@@ -49,8 +49,8 @@ flowchart TD
 
 | 서비스 | 직접 입력? | 방식 | 저장 위치 |
 |---|---|---|---|
-| **GitHub** | ❌ (토큰 발급 불필요) | `gh auth login` — 브라우저 로그인(ax-harness 멤버, 최초 1회). gh가 토큰을 관리 | gh 자격증명 저장소 |
-| **Slack** | ❌ (입력 불필요) | gh 로그인(=ax-harness 멤버)이면 `/ax:auth`·`/ax:sync`가 private repo에서 **봇 토큰 자동 조회**·1회 캐시 | `~/.proj-sync/credentials` (자동) |
+| **GitHub** | ❌ (토큰 발급 불필요) | `gh auth login` — 브라우저 로그인(조직 멤버, 최초 1회). gh가 토큰을 관리 | gh 자격증명 저장소 |
+| **Slack** | ❌ (입력 불필요) | gh 로그인(=조직 멤버)이면 `/ax:auth`·`/ax:sync`가 private repo에서 **봇 토큰 자동 조회**·1회 캐시 | `~/.proj-sync/credentials` (자동) |
 | **Notion** | ❌ (토큰 없음) | **claude.ai Notion 커넥터 1회 연동**(개인 OAuth). Claude Code 에서 `/mcp` 로 연결 상태 확인. 게시본 작성자 = 본인 (v1.21.0 — 팀 REST 경로 없음) | claude.ai 커넥터 |
 | **Google Drive** | ⭕ **브라우저 인증 1회** | 사업 폴더에서 `bash …/gdrive_sync.sh setup-remote` (`/ax:doctor` 가 안내) — **본인 Google 계정**으로 인증. **마운트 불요** — rclone 이 전송하고 자격증명도 보관 | rclone 설정 파일 (`~/.config/rclone`) |
 
@@ -66,7 +66,7 @@ flowchart TD
 2. 터미널(Windows 는 **Git Bash**)에서: `bash proj-sync/install.sh`
 3. **Claude Code 완전 재시작** → `/ax:*` 명령이 보입니다 (소프트 리로드 ✗)
 
-- git-url 방식(자동 업데이트): `claude plugin marketplace add hankeon/proj-sync-harness` → `claude plugin install ax@ax-harness`
+- git-url 방식(자동 업데이트): `claude plugin marketplace add hank-netpg/proj-sync-harness` → `claude plugin install ax@ax-harness`
 - zip(install.sh) 설치는 로컬 디렉토리 소스라 `plugin update` 로 최신본을 못 받습니다 → 새 zip 재실행, 또는 위 git-url 로 재등록.
 
 ### 2-1. 이미 설치했다면 — 업데이트 (v1.16~1.17)
@@ -86,7 +86,7 @@ claude plugin marketplace update ax-harness && claude plugin update ax@ax-harnes
 | 순서 | 명령 | 하는 일 |
 |---|---|---|
 | 1 | `/ax:setup` | 도구(git·gh·Git LFS·Python) 점검 — 없으면 자동 설치(mac) |
-| 2 | `gh auth login` | GitHub 로그인(ax-harness 멤버, 최초 1회·브라우저) |
+| 2 | `gh auth login` | GitHub 로그인(조직 멤버, 최초 1회·브라우저) |
 | 3 | `/ax:start` | 수행 프로젝트 DB에서 선택 → repo clone(설정·문서 자동) |
 | 4 | `/ax:doctor` | 멤버십·repo·봇채널·토큰 점검(토큰 자동조회) |
 | 5 | `/ax:sync` | Slack 최신 파일까지 받아 최신화 → 업무 시작 |
@@ -172,7 +172,7 @@ git config core.hooksPath .githooks
 
 ## 4. Slack 토큰은 입력하지 않습니다 — Notion·Drive 는 본인 계정입니다
 
-- 팀 공용 봇 토큰은 **private repo** 에만 있고, `gh` 로그인(=ax-harness 멤버)이면 `doctor`·`sync` 가 자동으로 가져와 1회 캐시합니다.
+- 팀 공용 봇 토큰은 **private repo** 에만 있고, `gh` 로그인(=조직 멤버)이면 `doctor`·`sync` 가 자동으로 가져와 1회 캐시합니다.
 - 수동이 필요하면: `/ax:auth`
 - **Notion**(v1.21.0): 팀 토큰이 아닙니다. claude.ai 에서 Notion 커넥터를 1회 연동하면 Claude 가 **본인 명의**로 게시합니다. 문서함 DB 편집 권한이 없으면 게시가 실패하니 담당자에게 권한을 요청하세요.
 - **Google Drive**(v1.21.0): `setup-remote` 1회로 **본인 Google 계정** 브라우저 인증을 합니다. 인증이 「관리자가 차단함」으로 거절되면(E12) Workspace 관리자가 서드파티 앱(rclone)을 막은 것입니다 — 담당자를 통해 관리자에게 rclone 허용(앱 접근 통제)을 요청하세요. 재인증으로는 풀리지 않습니다.
@@ -220,10 +220,10 @@ git config core.hooksPath .githooks
 | 증상 | 해결 |
 |---|---|
 | `/ax:*` 명령이 안 보임 | Claude Code **완전 재시작**(소프트 리로드 ✗) → `/plugin list` 확인 |
-| `plugin update` 가 최신본 안 받음 | zip 설치(로컬 소스)라서 — 새 zip 재실행, 또는 git-url(`add hankeon/proj-sync-harness`)로 재등록 |
+| `plugin update` 가 최신본 안 받음 | zip 설치(로컬 소스)라서 — 새 zip 재실행, 또는 git-url(`add hank-netpg/proj-sync-harness`)로 재등록 |
 | doctor에서 Git LFS 등 도구 ✗ | "자동 설치해줘" → mac은 Homebrew로 자동 설치 |
 | doctor에서 GitHub 로그인 ✗ | `gh auth login` (브라우저 인증) |
-| doctor에서 **org 멤버 아님** ✗ | 엔지니어링팀 **관리자**에게 ax-harness 멤버 등록 요청 |
+| doctor에서 **org 멤버 아님** ✗ | 엔지니어링팀 **관리자**에게 조직 멤버 등록 요청 |
 | doctor에서 **repo read-only** ✗ | 관리자에게 해당 repo write 권한 요청 |
 | doctor에서 **봇 채널 미초대** ✗ | 프로젝트 채널에서 `/invite @AX-E` |
 | doctor에서 Slack 토큰 ✗ | `gh auth login` 확인 → `/ax:auth` |
@@ -249,4 +249,4 @@ git config core.hooksPath .githooks
 
 ---
 
-*출처: github.com/hankeon/proj-sync-harness (PRIVATE) · Release v1.20.3 · 본 문서 docs/notion/onboarding-guide.md*
+*출처: github.com/hank-netpg/proj-sync-harness (PRIVATE) · Release v1.20.3 · 본 문서 docs/notion/onboarding-guide.md*

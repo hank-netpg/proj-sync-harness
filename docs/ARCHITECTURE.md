@@ -1,7 +1,7 @@
 # ax 아키텍처 레퍼런스 (Architecture Reference)
 
 > **proj-sync(제품명 ax) 에이전트 구조·설계 원칙·기능 카탈로그의 단일 상위 레퍼런스.**  
-> 기준: ax **v1.8.0** (`hankeon/proj-sync-harness`). 갱신 2026-07-26.  
+> 기준: ax **v1.8.0** (`hank-netpg/proj-sync-harness`). 갱신 2026-07-26.  
 > 📊 정형 도식(시스템·컴포넌트·DFD·ERD·시퀀스·상태·Gantt) 10종은 [`docs/DIAGRAMS.md`](DIAGRAMS.md) 참조.
 >
 > 설계 결정의 근거(왜 이렇게 만들었나)는 이 문서에 요약하고, 상세 흔들기·이식 이력은 [`docs/design/`](design/)(DESIGN·SPEC·DETAIL·PROPOSAL_PIPELINE) 참조.

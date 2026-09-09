@@ -35,7 +35,7 @@ Slack 채널 파일  ──(slack-pull)──▶  로컬 폴더(카테고리 분
 > **간편 점검**: 플러그인 설치 후 `/ax:setup` 을 실행하면 위 도구(git·gh·Git LFS·Python·curl) 설치 여부를 자동 점검하고, 누락 시 OS별 설치 명령을 안내합니다(macOS 는 Homebrew 자동 설치 옵션). 비개발자는 이 커맨드부터 시작하세요.
 
 ### 1.1 Slack 봇 토큰 (자동 조회 — 입력 불필요)
-- 팀 공통 봇 **AX-E** 토큰은 **직접 입력하지 않습니다** — `gh auth login`(ax-harness 멤버)이면 `/ax:auth`(또는 doctor/sync)가 private repo 에서 자동 조회해 `~/.proj-sync/credentials` 에 1회 캐시합니다.
+- 팀 공통 봇 **AX-E** 토큰은 **직접 입력하지 않습니다** — `gh auth login`(조직 멤버)이면 `/ax:auth`(또는 doctor/sync)가 private repo 에서 자동 조회해 `~/.proj-sync/credentials` 에 1회 캐시합니다.
 - 봇에 필요한 scope: `channels:history`, `files:read`, `files:write` (이미 설정됨).
 - Notion 은 각자의 claude.ai Notion 커넥터, Google Drive 는 rclone(본인 Google 계정) — 팀 토큰이 아닙니다(v1.21.0).
 - 토큰을 **절대 커밋/공유 채널에 붙여넣지 않습니다.**
@@ -55,7 +55,7 @@ Slack 채널 파일  ──(slack-pull)──▶  로컬 폴더(카테고리 분
 ### 2.2 Git 저장소 방식 (관리자용 · 업데이트 일괄 관리)
 
 ```bash
-claude plugin marketplace add hankeon/proj-sync-harness   # PRIVATE repo: gh 인증(ax-harness 멤버) 필요
+claude plugin marketplace add hank-netpg/proj-sync-harness   # PRIVATE repo: gh 인증(조직 멤버) 필요
 claude plugin install ax@ax-harness
 # 이후 갱신:  claude plugin marketplace update ax-harness && claude plugin update ax@ax-harness
 ```

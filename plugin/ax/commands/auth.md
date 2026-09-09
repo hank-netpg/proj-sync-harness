@@ -1,5 +1,5 @@
 ---
-description: "Slack 봇 토큰 1회 설정 — private repo에서 자동 조회(토큰 입력 불필요). gh 인증=ax-harness 멤버만 접근. Notion·Drive 는 팀 토큰이 아님(각자 계정)."
+description: "Slack 봇 토큰 1회 설정 — private repo에서 자동 조회(토큰 입력 불필요). gh 인증=조직 멤버만 접근. Notion·Drive 는 팀 토큰이 아님(각자 계정)."
 allowed-tools: ["Bash(bash ${CLAUDE_PLUGIN_ROOT}/scripts/auth.sh:*)", "Bash(gh:*)"]
 ---
 
@@ -16,7 +16,7 @@ Slack 동기화에 쓰는 **팀 공용 봇 토큰(AX-E)** 을 이 PC에 1회 설
 ```!
 bash ${CLAUDE_PLUGIN_ROOT}/scripts/auth.sh fetch
 ```
-- 토큰은 배포 zip에 들어있지 않고, **private repo(`hankeon/proj-sync-harness-secrets`)에 보관**되어 **ax-harness 멤버(gh 로그인)만** 가져올 수 있습니다.
+- 토큰은 배포 zip에 들어있지 않고, **private repo(`<your-org>/proj-sync-secrets`)에 보관**되어 **조직 멤버(gh 로그인)만** 가져올 수 있습니다.
 - 가져온 토큰은 `~/.proj-sync/credentials`(본인 PC, 0600)에 1회 캐시 → 모든 프로젝트에서 자동 사용. **커밋 위험 없음**(어떤 repo 밖).
 
 판정은 **Slack 봇 토큰 하나**입니다(`✓ Slack 봇 토큰`). 없으면 종료코드 1.

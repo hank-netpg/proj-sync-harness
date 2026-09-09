@@ -114,7 +114,7 @@ ps_resolve_token() {
 
 # 전역 자격증명(크로스플랫폼: mac·linux·Windows Git Bash 모두 ~ 존재). OS 키체인 대신 홈파일 사용.
 PS_GLOBAL_CRED="${PS_GLOBAL_CRED:-$HOME/.proj-sync/credentials}"
-PS_SECRETS_REPO="${PS_SECRETS_REPO:-hankeon/proj-sync-harness-secrets}"
+PS_SECRETS_REPO="${PS_SECRETS_REPO:-<your-org>/proj-sync-secrets}"
 PS_SECRETS_FILE="${PS_SECRETS_FILE:-credentials}"
 
 # 전역 캐시에서 키 1개 읽기 (env 형식 KEY=…). 인자 없으면 Slack 봇 토큰(하위호환).

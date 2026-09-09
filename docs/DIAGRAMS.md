@@ -41,7 +41,7 @@ flowchart TB
         end
         PROJ[("사업 폴더<br/>1사업 = 1repo")]
     end
-    subgraph EXT["외부 서비스 · ax-harness org"]
+    subgraph EXT["외부 서비스 · 조직 org"]
         GH[("GitHub<br/>텍스트 SSOT")]
         GD[("Google Drive<br/>사무파일 SSOT")]
         SL["Slack<br/>유입 · 발신"]
@@ -61,7 +61,7 @@ flowchart TB
     class GH,GD,SL,NT ext
 ```
 
-**설명**: 인증 경계는 **ax-harness org 멤버십**(A7). 부수효과(git·API)는 스크립트만 수행하고, 에이전트는 사업 폴더(SSOT)와 파일로만 상호작용한다(A3).
+**설명**: 인증 경계는 **조직 org 멤버십**(A7). 부수효과(git·API)는 스크립트만 수행하고, 에이전트는 사업 폴더(SSOT)와 파일로만 상호작용한다(A3).
 
 ---
 

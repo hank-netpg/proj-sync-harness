@@ -7,8 +7,8 @@
 |---|---|
 | 플러그인 | `ax` — 커맨드 `/ax:*` 19종, 에이전트 `@agent-ax:pm`·`@agent-ax:pl`·`@agent-ax:pp` |
 | 버전 | **1.20.3** (v1.1.0 팀 토큰 → v1.2.0 에이전트 직접 실행 → v1.4~1.7 revision·전제·회의록·주간보고 → **v1.8.0 제안축** → v1.9~1.10 Notion 게시 생명주기·문서구조 감사 → v1.11~1.12 외부참조·델타 → v1.13~1.16 init 정합·**additive 마이그레이션** → v1.17~1.18 배포 게이트·오탐 가드 → **v1.19.0 NAS→Google Drive 전환** → v1.19.1~2 Drive pull·한국어 Windows·init heredoc → v1.20.0 세션 연속성·게시 구조 소실 수정 → v1.20.1 커밋 규약 → v1.20.2 게시 본문 개행 수정 → **v1.20.3 게시 프로퍼티 보존**) |
-| 레포 | github.com/hankeon/proj-sync-harness (PRIVATE) |
-| 마켓플레이스 | `ax-harness` (git-url: `hankeon/proj-sync-harness`) |
+| 레포 | github.com/hank-netpg/proj-sync-harness (PRIVATE) |
+| 마켓플레이스 | `ax-harness` (git-url: `hank-netpg/proj-sync-harness`) |
 | 대상 | IP-AX 비즈니스실 / 엔지니어링팀 |
 | 작업환경 | VSCode + Claude Code + GitHub + Slack + Notion (전원 동일) |
 | 세션 훅 | `SessionStart` 2종 — 낡은 사본 알림(`version_notice`) · 직전 작업 맥락 주입(`context_digest`, v1.20.0). 둘 다 말할 게 없으면 침묵하며 세션 시작을 막지 않는다 |
@@ -73,7 +73,7 @@ flowchart LR
 
 ## 1-2. 팀 공용 토큰 — secrets repo 참조 구조
 
-> **팀 공용 토큰은 Slack 봇 하나다 (v1.21.0).** Claude Code 계정이 사용자마다 개인 계정이 되면서 Notion 은 **로그인한 사용자의 claude.ai 커넥터**(명의=본인), Google Drive 는 **rclone(본인 Google 계정)** 이 담당한다. 공용 비밀은 **별도 private repo `hankeon/proj-sync-harness-secrets`** 의 `credentials` 에 보관하고, 사용자는 `gh` 인증(=ax-harness 멤버)으로 **자동 조회·캐시**한다. **이 도구 레포에는 토큰을 넣지 않는다**(secret-scan 차단).
+> **팀 공용 토큰은 Slack 봇 하나다 (v1.21.0).** Claude Code 계정이 사용자마다 개인 계정이 되면서 Notion 은 **로그인한 사용자의 claude.ai 커넥터**(명의=본인), Google Drive 는 **rclone(본인 Google 계정)** 이 담당한다. 공용 비밀은 **별도 private repo `<your-org>/proj-sync-secrets`** 의 `credentials` 에 보관하고, 사용자는 `gh` 인증(=조직 멤버)으로 **자동 조회·캐시**한다. **이 도구 레포에는 토큰을 넣지 않는다**(secret-scan 차단).
 
 | 키 | 필수 | 사용처 |
 |---|---|---|
@@ -81,8 +81,8 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    SEC[("hankeon/proj-sync-harness-secrets<br/>(PRIVATE) credentials")]
-    GHA["gh 인증<br/>= ax-harness 멤버"] -->|"ps_*_token() 자동 fetch"| SEC
+    SEC[("<your-org>/proj-sync-secrets<br/>(PRIVATE) credentials")]
+    GHA["gh 인증<br/>= 조직 멤버"] -->|"ps_*_token() 자동 fetch"| SEC
     SEC --> CACHE["~/.proj-sync/credentials<br/>(chmod 600, 1회 캐시)"]
     ENV[".env / token_ref<br/>(개인 — 최우선)"] -.->|"있으면 이걸 먼저"| SCR
     CACHE --> SCR["스크립트<br/>slack_*"]
@@ -168,7 +168,7 @@ git config core.hooksPath .githooks
 ### 2.2 git-url 방식 (관리자·자동 업데이트)
 
 ```bash
-claude plugin marketplace add hankeon/proj-sync-harness   # PRIVATE: gh 인증(ax-harness 멤버) 필요
+claude plugin marketplace add hank-netpg/proj-sync-harness   # PRIVATE: gh 인증(조직 멤버) 필요
 claude plugin install ax@ax-harness
 # 이후 갱신:  claude plugin marketplace update ax-harness && claude plugin update ax@ax-harness
 ```
@@ -351,7 +351,7 @@ git tag "v$VER" && git push origin "v$VER"
 | 증상 | 조치 |
 |---|---|
 | `/ax:*` 커맨드 안 보임 | Claude Code 재시작 → `/agents`·`/plugin list` 확인 |
-| `plugin update` 가 최신본 안 받음 | zip 설치(로컬 소스)라서 그렇습니다 → 새 zip 재실행, 또는 git-url(`add hankeon/proj-sync-harness`)로 재등록 |
+| `plugin update` 가 최신본 안 받음 | zip 설치(로컬 소스)라서 그렇습니다 → 새 zip 재실행, 또는 git-url(`add hank-netpg/proj-sync-harness`)로 재등록 |
 | Windows 빨간 `$'\r'` 오류 | `bash <(tr -d '\r' < proj-sync-setup.sh)` |
 | Slack scope ✗ | `/ax:doctor` 로 점검 → scope 추가 후 Reinstall |
 | Notion 게시 안 됨 | 게시는 **claude.ai Notion 커넥터(MCP)** — `/mcp` 로 연결 확인, 문서함 편집 권한 확인. Claude 세션에서 `notion-fetch` 로 data_source_id 가 열리는지 본다(v1.21.0 — 팀 REST 경로 없음) |
@@ -365,7 +365,7 @@ git tag "v$VER" && git push origin "v$VER"
 **✅ 검증됨 (v1.20.3, 2026-08-31)**
 
 - `claude plugin validate . --strict` / `plugin/ax --strict` 모두 통과 (마켓플레이스+플러그인)
-- git-url 방식 실환경 검증: `marketplace add hankeon/proj-sync-harness` → `install ax@ax-harness` → 정상 수신 (소스 타입 GitHub 확인)
+- git-url 방식 실환경 검증: `marketplace add hank-netpg/proj-sync-harness` → `install ax@ax-harness` → 정상 수신 (소스 타입 GitHub 확인)
 - CI: `release.yml`(태그 push 시 빌드·릴리즈, 최고 버전 태그에만 Latest 배지 — v1.13.3) · `lint.yml`(actionlint + manifest 검증)
 - Notion REST 게시 실환경 검증 — 당시 `notion_publish.sh` ✅ (역사 기록 — REST 경로는 v1.21.0 에서 삭제, 게시는 MCP 계획기)
 - 제안축 E2E — 실 바이오 RFP 로 RFP→요구사항→목차→전략→본문→평가→PPTX 검증 (v1.8.0)
@@ -390,4 +390,4 @@ git tag "v$VER" && git push origin "v$VER"
 
 *상세 동작 구조(Mermaid)·설치 가이드·운영 매뉴얼은 레포의 `dist/ARCHITECTURE.md` · `GUIDE.md` · `MANUAL.md` 참고. 본 문서는 v1.20.3 기준 종합 안내이며, 다음 릴리즈 시 갱신. 릴리즈별 변경 요약은 **ax 최신 릴리즈 안내**(`whats-new.md`) 참고.*
 *하위 문서: [ax 설치·합류 온보딩 가이드](onboarding-guide.md) · [ax 아키텍처 상세](../../dist/ARCHITECTURE.md) · [ax 제안 파이프라인 가이드](proposal-pipeline-guide.md) · [팀 토큰 운영 가이드(담당자)](secrets-admin.md)*
-*출처: github.com/hankeon/proj-sync-harness (PRIVATE) · Release v1.20.3 · 원본 `docs/notion/overview.md`*
+*출처: github.com/hank-netpg/proj-sync-harness (PRIVATE) · Release v1.20.3 · 원본 `docs/notion/overview.md`*

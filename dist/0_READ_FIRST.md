@@ -27,7 +27,7 @@
 ---
 
 ## 담당자에게 미리 받을 것 — 없음 (v1.21.0)
-- **Slack 봇 토큰**: GitHub 로그인(`gh auth login`, ax-harness 멤버)이면 자동 조회 — 받을 것 없음
+- **Slack 봇 토큰**: GitHub 로그인(`gh auth login`, 조직 멤버)이면 자동 조회 — 받을 것 없음
 - **Notion**: 각자 claude.ai Notion 커넥터 1회 연동 — 토큰 없음
 - **Google Drive**: 본인 Google 계정으로 rclone 인증(`setup-remote` 1회) — 토큰 없음
 - (GitHub 토큰은 **본인이 직접 발급** — GUIDE 에 방법 있음)

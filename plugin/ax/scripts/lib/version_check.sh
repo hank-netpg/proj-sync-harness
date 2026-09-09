@@ -8,7 +8,7 @@
 #
 # 전제: lib/config.sh 가 먼저 source 되어 ps_plugin_root·ps_plugin_version 이 있어야 한다.
 
-PS_PLUGIN_REPO_DEFAULT="hankeon/proj-sync-harness"
+PS_PLUGIN_REPO_DEFAULT="hank-netpg/proj-sync-harness"
 
 # 캐시 위치 — 세션마다 GitHub API 를 때리면 레이트리밋에 걸린다.
 ps_release_cache_file() {
