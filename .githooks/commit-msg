@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# 커밋 메시지 규약 검사 — Conventional Commits v1.0.0 + git 72칸 규칙
+#
+# 켜기:  git config core.hooksPath .githooks
+# 끄기:  git config --unset core.hooksPath
+# 한 번만 건너뛰기:  git commit --no-verify
+#
+# **막는다.** 동기화 훅(github_push·version_notice)은 차단하지 않는다는 것이 이 저장소의
+# 원칙이지만, 그 이유는 「막으면 팀원이 플러그인을 끈다」였다. 커밋 메시지는 다르다 —
+# 로컬에서 즉시 고칠 수 있고, 한 번 push 되면 되돌리려면 히스토리를 다시 써야 한다.
+set -uo pipefail
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+LINT="$HERE/../plugin/ax/scripts/lint_commit_msg.sh"
+[ -x "$LINT" ] || exit 0     # 스크립트가 없으면 조용히 통과 — 훅이 커밋을 막는 유일한 이유는 규약 위반뿐이다
+exec bash "$LINT" "$1"

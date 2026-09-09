@@ -1,0 +1,169 @@
+{
+  "version": 1,
+  "project": {
+    "id": "myproject",
+    "name": "사업명을 입력",
+    "root_page_title": "[Proj]사업명"
+  },
+  "github": {
+    "org": "your-org",
+    "repo": "your-repo",
+    "visibility": "private",
+    "lfs_extensions": [],
+    "office_exts": [
+      "hwp",
+      "hwpx",
+      "doc",
+      "docx",
+      "ppt",
+      "pptx",
+      "xls",
+      "xlsx",
+      "pdf",
+      "png",
+      "jpg",
+      "jpeg",
+      "gif",
+      "zip"
+    ]
+  },
+  "slack": {
+    "team_id": "T00000000",
+    "channel_id": "C00000000",
+    "token_ref": "env:PROJ_SYNC_SLACK_BOT_TOKEN",
+    "download_dir": "slack-files",
+    "filename_pattern": "{file_id}__{name}",
+    "inventory_csv": "FILE_INVENTORY.csv"
+  },
+  "report": {
+    "enabled": true,
+    "cadence": "weekly",
+    "weekday": "mon",
+    "time": "09:00",
+    "channel_ref": "slack.channel_id",
+    "sections": [
+      "리스크",
+      "진척일정",
+      "금주차주",
+      "결정필요",
+      "산출물누락"
+    ]
+  },
+  "categories": [
+    {
+      "key": "01_제안요청서_RFP",
+      "exts": [
+        "hwp"
+      ]
+    },
+    {
+      "key": "02_제안서_PPTX",
+      "exts": [
+        "pptx",
+        "ppt"
+      ]
+    },
+    {
+      "key": "03_견적_인프라",
+      "exts": [
+        "xlsx",
+        "xls"
+      ]
+    },
+    {
+      "key": "04_이메일_HTML",
+      "exts": [
+        "html",
+        "htm",
+        "eml"
+      ]
+    },
+    {
+      "key": "05_실적_기타",
+      "exts": [
+        "pdf"
+      ]
+    },
+    {
+      "key": "06_이미지_캡처",
+      "exts": [
+        "png",
+        "jpg",
+        "jpeg",
+        "gif"
+      ]
+    },
+    {
+      "key": "99_기타",
+      "exts": [
+        "*"
+      ],
+      "default": true
+    }
+  ],
+  "notion": {
+    "enabled": true,
+    "provider": "claude_ai_mcp",
+    "data_source_id": "문서함 DB data_source_id",
+    "properties": {
+      "title": "문서명",
+      "type": "유형",
+      "status": "상태",
+      "project": "프로젝트",
+      "applies_to": "적용대상",
+      "parent": "상위 항목"
+    }
+  },
+  "mentions": {
+    "U00000000": "이름"
+  },
+  "lifecycle": {
+    "phase": "제안",
+    "sdlc_stages": [
+      "착수",
+      "분석",
+      "설계",
+      "구현",
+      "종료"
+    ]
+  },
+  "wbs": {
+    "profile": "b2g",
+    "owners": [
+      {
+        "id": "U00000000",
+        "name": "이름",
+        "org": "엔지니어링팀",
+        "role": "PM"
+      }
+    ],
+    "base_date": "",
+    "meta": {},
+    "milestones": [],
+    "tasks": []
+  },
+  "gdrive": {
+    "enabled": false,
+    "remote": "gdrive",
+    "team_folder": "",
+    "team_drive_id": "",
+    "root_folder_id": "",
+    "base_path": "{team_folder}/{project_id}",
+    "upload_exts": [
+      "hwp",
+      "hwpx",
+      "doc",
+      "docx",
+      "ppt",
+      "pptx",
+      "xls",
+      "xlsx",
+      "pdf",
+      "png",
+      "jpg",
+      "jpeg",
+      "gif",
+      "zip"
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# 커밋 메시지 규약 검사 — Conventional Commits v1.0.0 + git 72칸 규칙
+#
+# 사업 저장소용 git 훅. 설치:
+#   mkdir -p .githooks && cp "$AX/templates/commit-msg" .githooks/ && chmod +x .githooks/commit-msg
+#   git config core.hooksPath .githooks
+# 끄기:  git config --unset core.hooksPath      한 번만 건너뛰기:  git commit --no-verify
+#
+# **검사기를 못 찾으면 조용히 통과한다.** 훅이 커밋을 막는 유일한 이유는 규약 위반이어야
+# 한다 — 도구가 없다는 이유로 팀원의 커밋을 막으면 그 사람은 훅을 꺼 버린다.
+set -uo pipefail
+
+# 플러그인 사본을 찾는다. 설치 방식(zip·git-url·개발 클론)마다 위치가 다르다.
+LINT=""
+for c in \
+  "${CLAUDE_PLUGIN_ROOT:-}/scripts/lint_commit_msg.sh" \
+  "$HOME/.claude/plugins/ax/scripts/lint_commit_msg.sh" \
+  "$HOME/.claude/plugins/ax-harness/ax/scripts/lint_commit_msg.sh" \
+  "./proj-sync/ax/scripts/lint_commit_msg.sh" \
+  "./plugin/ax/scripts/lint_commit_msg.sh"
+do
+  [ -n "$c" ] && [ -f "$c" ] && { LINT="$c"; break; }
+done
+# 마켓플레이스 설치는 버전 폴더가 끼어든다(…/ax-harness/ax/1.20.1/scripts/…) — 한 겹 더 훑는다.
+if [ -z "$LINT" ]; then
+  LINT="$(find "$HOME/.claude/plugins" -maxdepth 5 -name lint_commit_msg.sh -type f 2>/dev/null | head -1)"
+fi
+[ -n "$LINT" ] || exit 0
+
+exec bash "$LINT" "$1"

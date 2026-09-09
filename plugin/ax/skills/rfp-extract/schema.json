@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["project", "items"],
+  "properties": {
+    "project": {"type": "string"},
+    "count": {"type": "integer"},
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "category", "summary"],
+        "properties": {
+          "id": {"type": "string"},
+          "category": {"type": "string"},
+          "성격": {"type": "string"},
+          "summary": {"type": "string"},
+          "quote": {"type": "string"},
+          "detail": {"type": "array", "items": {"type": "string"}},
+          "담당": {"type": ["string", "null"]},
+          "toc_paths": {"type": "array", "items": {"type": "string"}},
+          "배점": {"type": "string"},
+          "kpi": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    }
+  }
+}

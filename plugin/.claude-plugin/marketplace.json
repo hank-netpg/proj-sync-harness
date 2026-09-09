@@ -1,0 +1,17 @@
+{
+  "name": "ax-harness",
+  "owner": {
+    "name": "Hankeon Hwang"
+  },
+  "plugins": [
+    {
+      "name": "ax",
+      "description": "프로젝트 사업관리 동기화 — GitHub(SSOT) ↔ Slack ↔ Notion",
+      "author": {
+        "name": "Hankeon Hwang"
+      },
+      "category": "productivity",
+      "source": "./ax"
+    }
+  ]
+}

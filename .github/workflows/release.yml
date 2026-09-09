@@ -1,0 +1,134 @@
+name: release
+
+# v* 태그를 push 하면 zip 빌드 → GitHub Release 생성/갱신까지 자동.
+#   예) git tag v1.0.1 && git push origin v1.0.1
+# 수동 실행(workflow_dispatch)도 가능 — 이때는 plugin.json 버전으로 태그를 만든다.
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write   # release 생성·asset 업로드에 필요
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0    # 전체 태그 필요 — Latest 배지 판정(아래 「Create or update Release」)에 쓴다
+
+      - name: Install zip
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq zip unzip
+
+      - name: Resolve version (plugin.json) and tag
+        id: ver
+        run: |
+          set -euo pipefail
+          PVER="$(grep -o '[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*' plugin/ax/.claude-plugin/plugin.json | head -1)"
+          [ -n "$PVER" ] || { echo "::error::plugin.json 에서 버전을 못 읽음"; exit 1; }
+          if [ "${GITHUB_REF_TYPE:-}" = "tag" ]; then
+            TAG="${GITHUB_REF_NAME}"
+          else
+            TAG="v${PVER}"   # 수동 실행: plugin.json 버전으로 태그
+          fi
+          echo "pver=$PVER" >> "$GITHUB_OUTPUT"
+          echo "tag=$TAG"   >> "$GITHUB_OUTPUT"
+          echo "plugin.json=$PVER, tag=$TAG"
+
+      - name: Verify tag matches plugin.json (tag push only)
+        if: github.ref_type == 'tag'
+        run: |
+          set -euo pipefail
+          EXPECT="v${{ steps.ver.outputs.pver }}"
+          GOT="${{ steps.ver.outputs.tag }}"
+          if [ "$EXPECT" != "$GOT" ]; then
+            echo "::error::태그($GOT) 와 plugin.json 버전($EXPECT) 불일치 — plugin.json 을 먼저 올리세요"
+            exit 1
+          fi
+          echo "✓ 태그·버전 일치: $GOT"
+
+      - name: Validate manifests (JSON well-formed + required fields)
+        run: |
+          set -euo pipefail
+          jq -e '.name and .plugins and (.plugins|length>0) and (.plugins[0].source)' \
+            .claude-plugin/marketplace.json >/dev/null \
+            || { echo "::error::루트 marketplace.json 형식 오류"; exit 1; }
+          jq -e '.name' plugin/.claude-plugin/marketplace.json >/dev/null \
+            || { echo "::error::plugin/marketplace.json 형식 오류"; exit 1; }
+          jq -e '.name and .version' plugin/ax/.claude-plugin/plugin.json >/dev/null \
+            || { echo "::error::plugin.json 형식 오류(name·version 필요)"; exit 1; }
+          # 루트 marketplace.json 의 source 경로가 실재하는지
+          test -d "plugin/ax/scripts" || { echo "::error::source 경로(plugin/ax) 누락"; exit 1; }
+          # 버전 정합 — 태그↔plugin.json 은 위에서 보지만, **마켓 인덱스**는 아무도 보지 않았다.
+          #   v1.17.0 에서 인덱스가 1.16.0 에 머문 채로 릴리즈가 통과했다. 여기서 막는다.
+          PV="$(jq -r '.version' plugin/ax/.claude-plugin/plugin.json)"
+          MV="$(jq -r '.plugins[0].version // empty' .claude-plugin/marketplace.json)"
+          [ -n "$MV" ] || { echo "::error::루트 marketplace.json 에 plugins[0].version 이 없습니다"; exit 1; }
+          [ "$PV" = "$MV" ] || {
+            echo "::error::버전 불일치 — plugin.json=$PV, 루트 marketplace.json=$MV"; exit 1; }
+          # dist/ARCHITECTURE.md 버전 라벨 — 이 파일은 proj-sync-dist.zip 에 실려 팀원에게 간다.
+          #   README 릴리즈 절차 2단계가 수동이라, v1.18.0 에서 1.17.0 인 채로 나갔다.
+          #   릴리즈 경로에서도 막는다 — lint 는 PR 만 보고, 태그 push 는 lint 를 거치지 않는다.
+          DH="$(sed -n '1s/.*(v\([0-9][0-9.]*\)).*/\1/p' dist/ARCHITECTURE.md)"
+          [ -n "$DH" ] || { echo "::error::dist/ARCHITECTURE.md 1행에서 버전을 못 읽음"; exit 1; }
+          [ "$DH" = "$PV" ] || {
+            echo "::error::dist/ARCHITECTURE.md 헤더 버전 불일치 — plugin.json=$PV, 헤더=$DH"; exit 1; }
+          # subgraph 라벨은 여러 곳에 있을 수 있다. sort -u 로 모으면 **전부 일치할 때만**
+          # 결과가 한 줄이 되므로, 값 하나와 비교하는 것으로 전건 검사가 된다(루프 불요).
+          DSU="$(grep -o 'ax 플러그인 (v[0-9][0-9.]*)' dist/ARCHITECTURE.md \
+                 | grep -o '[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*' | sort -u | tr '\n' ' ' | sed 's/ *$//')"
+          [ -n "$DSU" ] || { echo "::error::dist/ARCHITECTURE.md 에서 'ax 플러그인 (vX.Y.Z)' 라벨을 못 찾음"; exit 1; }
+          [ "$DSU" = "$PV" ] || {
+            echo "::error::dist/ARCHITECTURE.md subgraph 라벨 불일치 — plugin.json=$PV, 라벨=$DSU"; exit 1; }
+          echo "✓ dist/ARCHITECTURE.md 버전 라벨 일치 (v$PV)"
+          echo "✓ manifest 검증 통과 (v$PV)"
+
+      - name: Build proj-sync.zip
+        run: bash build.sh
+
+      - name: Sync dist + build proj-sync-dist.zip
+        run: |
+          set -euo pipefail
+          cp proj-sync.zip dist/proj-sync.zip
+          rm -f proj-sync-dist.zip
+          ( cd dist && zip -qX ../proj-sync-dist.zip ARCHITECTURE.md 0_READ_FIRST.md GUIDE.md MANUAL.md proj-sync.zip )
+          unzip -tq proj-sync.zip >/dev/null
+          unzip -tq proj-sync-dist.zip >/dev/null
+          echo "✓ zip 무결성 통과"
+
+      - name: Create or update Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          TAG="${{ steps.ver.outputs.tag }}"
+
+          # Latest 배지는 **가장 높은 버전 태그에만** 붙인다.
+          #   종전에는 무조건 --latest 라, 누락된 구버전 태그를 뒤늦게 push 하면
+          #   그 구버전이 Latest 를 가져갔다(2026-08-05: v1.13.0~2 소급 생성 시
+          #   v1.13.3 의 배지를 v1.13.1 이 뺏음 → 사용자가 구버전을 내려받는 길).
+          #   자신을 후보에 포함해 비교하므로 workflow_dispatch(태그 미생성)에서도 맞다.
+          NEWEST="$(printf '%s\n%s\n' "$(git tag -l 'v[0-9]*')" "$TAG" | sed '/^$/d' | sort -uV | tail -1)"
+          if [ "$NEWEST" = "$TAG" ]; then
+            LATEST_FLAG="--latest"
+            echo "Latest 판정: $TAG 가 최신 → 배지 부여"
+          else
+            LATEST_FLAG="--latest=false"
+            echo "Latest 판정: 최신은 $NEWEST → $TAG 에는 배지 미부여(소급 릴리즈)"
+          fi
+
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" proj-sync.zip proj-sync-dist.zip --clobber
+            echo "✓ 기존 릴리즈 $TAG asset 갱신"
+          else
+            gh release create "$TAG" proj-sync.zip proj-sync-dist.zip \
+              --target "$GITHUB_SHA" "$LATEST_FLAG" \
+              --title "$TAG" \
+              --notes "ax 플러그인 $TAG — 자동 빌드(release.yml). 설치: proj-sync.zip 압축 후 \`bash proj-sync/install.sh\`."
+            echo "✓ 새 릴리즈 $TAG 생성"
+          fi

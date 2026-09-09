@@ -1,0 +1,21 @@
+{
+  "name": "ax-harness",
+  "owner": {
+    "name": "Hankeon Hwang"
+  },
+  "metadata": {
+    "description": "AX 팀 내부 플러그인 마켓플레이스 (git-url 등록용). zip 배포본 빌드는 plugin/.claude-plugin/marketplace.json 사용."
+  },
+  "plugins": [
+    {
+      "name": "ax",
+      "description": "프로젝트 사업관리 동기화 — GitHub(SSOT) ↔ Slack ↔ Notion",
+      "version": "1.21.0",
+      "author": {
+        "name": "Hankeon Hwang"
+      },
+      "category": "productivity",
+      "source": "./plugin/ax"
+    }
+  ]
+}

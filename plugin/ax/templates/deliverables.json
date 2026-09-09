@@ -1,0 +1,349 @@
+{
+  "_comment": "표준 산출물 마스터 (SSOT). 출처: 법제처 [별표2] 정보화사업관리 필수 사업산출물 + V-Model V&V. config.wbs.profile 이 이 세트를 선택, tasks[].deliverable_keys 가 deliverables 의 key 를 참조. 표준 개정 시 이 파일 1곳만 수정.",
+  "version": 2,
+  "_dir_comment": "산출물 '작업본(초안 md)' 저장 표준 디렉터리. stage(영업/착수/분석/설계/구현/종료)로 폴더 결정. PL이 이 매핑으로 reference/ 하위에 자동 배치(→ reference/drafts/…). 고객 납품 '최종본'은 별개로 최상위 deliverables/(Archive)에 둔다.",
+  "stage_dirs": {
+    "영업": "drafts/00_영업_제안",
+    "착수": "drafts/10_착수",
+    "분석": "drafts/20_분석",
+    "설계": "drafts/30_설계",
+    "구현": "drafts/40_구현_시험",
+    "종료": "drafts/50_종료_인도"
+  },
+  "support_dirs": {
+    "_comment": "산출물 외 관리 문서(4대 관리). 단계와 무관하게 사업 전체 관리.",
+    "일정관리": "management/schedule",
+    "위험관리": "management/risk",
+    "형상관리": "management/config",
+    "회의_보고": "management/reports",
+    "추출본": "_extracted"
+  },
+  "_profile_map_comment": "Notion 통합 DB의 '사업성격' select 값 → proj-sync profile 매핑. 통합 DB(B2B/B2G 단일)에서 사업성격 필드로 산출물 세트를 결정. B2G는 과제(R&D)와 용역으로 산출물 체계가 달라 분리. 사람이 DB에서 '제안 진행'으로 정하고 사업성격을 지정하면 bootstrap이 이 매핑으로 profile 적용.",
+  "profile_map": {
+    "B2G-과제": "b2g_rnd",
+    "B2G-용역": "b2g",
+    "B2B": "b2b",
+    "내부과제": "internal"
+  },
+  "_phase_map_comment": "Notion '최종 지원 상황'(27값) → lifecycle.phase(5값) 매핑. SSOT는 Notion이나 phase는 5단계로 정규화. 매핑 안 되는 값(미지원·탈락·검토중 등)은 phase 대상 아님(생성/추적 제외). 교차 DB 불일치 시 사용자 확인으로 보정(start-from-notion 1.5단계).",
+  "phase_map": {
+    "수요기업 제안 준비": "제안",
+    "공급기업 등록 준비": "제안",
+    "전사 관점 제안 준비": "제안",
+    "수요기업 제안 완료": "수주",
+    "제안완료": "수주",
+    "공급기업 선정 완료": "수주",
+    "타기관 제안 서포트": "수주",
+    "협약 진행중": "수행중",
+    "협약 완료": "수행중",
+    "홀딩": "보류",
+    "본 공고 대기": "보류",
+    "수요기업 확보 전제": "보류"
+  },
+  "profiles": {
+    "_b2g_comment": "B2G-용역: 전자정부 별표2 정보화사업 산출물 (구축·정보화 용역).",
+    "b2g": [
+      "RFP_ANALYSIS",
+      "PROPOSAL",
+      "COST_SHEET",
+      "CONTRACT",
+      "KICKOFF",
+      "PROJECT_PLAN",
+      "QA_PLAN",
+      "RISK_PLAN",
+      "SECURITY_PLEDGE",
+      "REQ_SPEC",
+      "IF_DEF",
+      "PROC_DEF",
+      "ENTITY_DEF",
+      "MENU_MAP",
+      "ERD_LOGICAL",
+      "ERD_PHYSICAL",
+      "TBL_LIST",
+      "TBL_DEF",
+      "CODE_LIST",
+      "UNIT_TEST",
+      "INTEG_TEST",
+      "SYS_TEST",
+      "ACCEPT_TEST",
+      "USER_MANUAL",
+      "ADMIN_MANUAL",
+      "AUDIT_RESULT",
+      "AUDIT_FIX",
+      "FINAL_REPORT",
+      "COMPLETION_CERT"
+    ],
+    "_b2g_rnd_comment": "B2G-과제: 정부 R&D 과제 산출물 (연구개발). 시스템 설계·테스트 대신 연구계획·연차/최종보고·연구노트 중심.",
+    "b2g_rnd": [
+      "RFP_ANALYSIS",
+      "PROPOSAL",
+      "COST_SHEET",
+      "CONTRACT",
+      "KICKOFF",
+      "RND_PLAN",
+      "RISK_PLAN",
+      "SECURITY_PLEDGE",
+      "REQ_SPEC",
+      "RND_NOTE",
+      "ANNUAL_REPORT",
+      "MILESTONE_REPORT",
+      "PERF_REPORT",
+      "AUDIT_RESULT",
+      "AUDIT_FIX",
+      "FINAL_REPORT",
+      "COMPLETION_CERT"
+    ],
+    "b2b": [
+      "REQ_SPEC",
+      "IF_DEF",
+      "ERD_LOGICAL",
+      "ERD_PHYSICAL",
+      "TBL_DEF",
+      "UNIT_TEST",
+      "INTEG_TEST",
+      "USER_MANUAL"
+    ],
+    "internal": [
+      "REQ_SPEC",
+      "ERD_LOGICAL",
+      "UNIT_TEST"
+    ]
+  },
+  "deliverables": {
+    "RFP_ANALYSIS": {
+      "name": "제안요청서분석서",
+      "stage": "영업",
+      "kind": "biz",
+      "vv": null
+    },
+    "PROPOSAL": {
+      "name": "제안서",
+      "stage": "영업",
+      "kind": "biz",
+      "vv": null
+    },
+    "COST_SHEET": {
+      "name": "산출내역서",
+      "stage": "영업",
+      "kind": "biz",
+      "vv": null
+    },
+    "CONTRACT": {
+      "name": "계약서",
+      "stage": "영업",
+      "kind": "biz",
+      "vv": null
+    },
+    "KICKOFF": {
+      "name": "착수신고서",
+      "stage": "착수",
+      "kind": "mgmt",
+      "vv": null
+    },
+    "PROJECT_PLAN": {
+      "name": "사업수행계획서",
+      "stage": "착수",
+      "kind": "mgmt",
+      "vv": null
+    },
+    "RND_PLAN": {
+      "name": "연구개발계획서",
+      "stage": "착수",
+      "kind": "mgmt",
+      "vv": null
+    },
+    "RND_NOTE": {
+      "name": "연구노트",
+      "stage": "구현",
+      "kind": "rnd",
+      "vv": null
+    },
+    "ANNUAL_REPORT": {
+      "name": "연차실적보고서",
+      "stage": "종료",
+      "kind": "rnd",
+      "vv": null
+    },
+    "MILESTONE_REPORT": {
+      "name": "단계실적보고서",
+      "stage": "종료",
+      "kind": "rnd",
+      "vv": null
+    },
+    "PERF_REPORT": {
+      "name": "성과활용보고서",
+      "stage": "종료",
+      "kind": "rnd",
+      "vv": null
+    },
+    "QA_PLAN": {
+      "name": "품질보증계획서",
+      "stage": "착수",
+      "kind": "mgmt",
+      "vv": null
+    },
+    "RISK_PLAN": {
+      "name": "위험관리계획서",
+      "stage": "착수",
+      "kind": "mgmt",
+      "vv": null
+    },
+    "SECURITY_PLEDGE": {
+      "name": "보안서약서",
+      "stage": "착수",
+      "kind": "mgmt",
+      "vv": null
+    },
+    "REQ_SPEC": {
+      "name": "요구사항명세서",
+      "stage": "분석",
+      "kind": "design",
+      "vv": "validation",
+      "verified_by": "ACCEPT_TEST"
+    },
+    "IF_DEF": {
+      "name": "인터페이스정의서",
+      "stage": "분석",
+      "kind": "design",
+      "vv": "validation",
+      "verified_by": "ACCEPT_TEST"
+    },
+    "PROC_DEF": {
+      "name": "프로세스정의서",
+      "stage": "분석",
+      "kind": "design",
+      "vv": "validation",
+      "verified_by": "ACCEPT_TEST"
+    },
+    "ENTITY_DEF": {
+      "name": "엔티티정의서",
+      "stage": "분석",
+      "kind": "design",
+      "vv": "verification",
+      "verified_by": "INTEG_TEST"
+    },
+    "MENU_MAP": {
+      "name": "메뉴구성도",
+      "stage": "설계",
+      "kind": "design",
+      "vv": "validation",
+      "verified_by": "SYS_TEST"
+    },
+    "ERD_LOGICAL": {
+      "name": "논리ERD",
+      "stage": "설계",
+      "kind": "design",
+      "vv": "verification",
+      "verified_by": "INTEG_TEST"
+    },
+    "ERD_PHYSICAL": {
+      "name": "물리ERD",
+      "stage": "설계",
+      "kind": "design",
+      "vv": "verification",
+      "verified_by": "UNIT_TEST"
+    },
+    "TBL_LIST": {
+      "name": "테이블목록",
+      "stage": "설계",
+      "kind": "design",
+      "vv": "verification",
+      "verified_by": "INTEG_TEST"
+    },
+    "TBL_DEF": {
+      "name": "테이블정의서",
+      "stage": "설계",
+      "kind": "design",
+      "vv": "verification",
+      "verified_by": "UNIT_TEST"
+    },
+    "CODE_LIST": {
+      "name": "데이터코드목록",
+      "stage": "설계",
+      "kind": "design",
+      "vv": "verification",
+      "verified_by": "UNIT_TEST"
+    },
+    "UNIT_TEST": {
+      "name": "단위테스트결과",
+      "stage": "구현",
+      "kind": "test",
+      "vv": "verification",
+      "verifies": [
+        "ERD_PHYSICAL",
+        "TBL_DEF",
+        "CODE_LIST"
+      ]
+    },
+    "INTEG_TEST": {
+      "name": "통합테스트결과",
+      "stage": "구현",
+      "kind": "test",
+      "vv": "verification",
+      "verifies": [
+        "ERD_LOGICAL",
+        "TBL_LIST",
+        "ENTITY_DEF"
+      ]
+    },
+    "SYS_TEST": {
+      "name": "시스템테스트결과",
+      "stage": "종료",
+      "kind": "test",
+      "vv": "validation",
+      "verifies": [
+        "MENU_MAP"
+      ]
+    },
+    "ACCEPT_TEST": {
+      "name": "인수테스트결과",
+      "stage": "종료",
+      "kind": "test",
+      "vv": "validation",
+      "verifies": [
+        "REQ_SPEC",
+        "IF_DEF",
+        "PROC_DEF"
+      ]
+    },
+    "USER_MANUAL": {
+      "name": "사용자 매뉴얼",
+      "stage": "종료",
+      "kind": "manual",
+      "vv": null
+    },
+    "ADMIN_MANUAL": {
+      "name": "시스템 관리자 매뉴얼",
+      "stage": "종료",
+      "kind": "manual",
+      "vv": null
+    },
+    "FINAL_REPORT": {
+      "name": "완료보고서",
+      "stage": "종료",
+      "kind": "mgmt",
+      "vv": null
+    },
+    "COMPLETION_CERT": {
+      "name": "준공검사확인서",
+      "stage": "종료",
+      "kind": "mgmt",
+      "vv": null
+    },
+    "AUDIT_RESULT": {
+      "name": "감리수행결과보고서",
+      "stage": "구현",
+      "kind": "biz",
+      "vv": "V",
+      "_gate": "audit"
+    },
+    "AUDIT_FIX": {
+      "name": "감리 시정조치확인보고서",
+      "stage": "구현",
+      "kind": "biz",
+      "vv": "V",
+      "_gate": "audit"
+    }
+  },
+  "_audit_gate_comment": "감리=수행중 내부 게이트(별도 phase 아님). config.lifecycle.audit_gate=true 시 구현 단계 전환에 AUDIT_RESULT·AUDIT_FIX 산출물 게이트 점검."
+}

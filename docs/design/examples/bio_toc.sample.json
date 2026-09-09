@@ -1,0 +1,10 @@
+{
+  "toc": [
+    {"page_id":"III-1","title":"기술 및 기능","children":[
+      {"page_id":"III-1-1","title":"분석 에이전트군","req_ids":["SFR-001","SFR-003"],"담당":"주관사","협업":["참여사A(기획)"],"스토리라인":"탐색 병목 해소","산출물":"구조 설계서"}]},
+    {"page_id":"III-2","title":"데이터","children":[
+      {"page_id":"III-2-1","title":"Knowledge Graph 설계","req_ids":["DAR-002"],"담당":"주관사","스토리라인":"대규모 KG","산출물":"설계서"}]},
+    {"page_id":"III-3","title":"보안","children":[
+      {"page_id":"III-3-2","title":"인증기준 대응","req_ids":["SER-006"],"담당":"주관사","스토리라인":"설계수준 대응","산출물":"보안 대책서"}]}
+  ]
+}

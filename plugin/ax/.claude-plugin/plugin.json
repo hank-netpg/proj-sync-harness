@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "ax",
+  "displayName": "AX 사업관리 동기화",
+  "version": "1.21.0",
+  "description": "프로젝트 사업관리 동기화 — GitHub(SSOT) ↔ Slack ↔ Notion ↔ Google Drive. 설치 1회로 GitHub·Slack·Notion 인증이 한 번에 연결되며(팀 시크릿 자동 조회), PM/PL 에이전트가 전체 동기화를 직접 수행(run-sync), Slack 인바운드 폴링(inbox), VSCode 태스크, Google Drive 동기화(rclone)·자가진단 + 수행 프로젝트 레지스트리를 표준 절차로 모듈화.",
+  "author": {
+    "name": "Hankeon Hwang"
+  },
+  "homepage": "https://github.com/hankeon/proj-sync-harness",
+  "repository": "https://github.com/hankeon/proj-sync-harness",
+  "license": "MIT",
+  "keywords": [
+    "project-management",
+    "github",
+    "slack",
+    "notion",
+    "b2g",
+    "deliverables",
+    "sync"
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "AX: Doctor (점검)",
+      "type": "shell",
+      "command": "$HOME/.proj-sync/bin/ax doctor",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "AX: Slack Pull (파일 수신)",
+      "type": "shell",
+      "command": "$HOME/.proj-sync/bin/ax slack-pull",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "AX: GitHub Push",
+      "type": "shell",
+      "command": "$HOME/.proj-sync/bin/ax github-push \"${input:commitMsg}\"",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "AX: Drive Push (대용량)",
+      "type": "shell",
+      "command": "$HOME/.proj-sync/bin/ax gdrive-push",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "AX: Drive Doctor (연결 자가진단)",
+      "type": "shell",
+      "command": "$HOME/.proj-sync/bin/ax gdrive-doctor",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "AX: Inbox (Slack 수신함 미리보기)",
+      "type": "shell",
+      "command": "$HOME/.proj-sync/bin/ax inbox",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "commitMsg",
+      "type": "promptString",
+      "description": "GitHub 커밋 메시지",
+      "default": "proj-sync: 동기화"
+    }
+  ]
+}

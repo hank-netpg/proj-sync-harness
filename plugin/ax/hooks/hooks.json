@@ -1,0 +1,19 @@
+{
+  "description": "세션 시작 시 ① 플러그인 사본이 릴리즈보다 낡았으면 알리고(issue #18) ② 저장소의 직전 작업 맥락(결정·미해결·일정)을 주입한다. 둘 다 말할 게 없으면 침묵하며, 어떤 실패에도 세션 시작을 막지 않는다.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/version_notice.sh\""
+          },
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/context_digest.sh\""
+          }
+        ]
+      }
+    ]
+  }
+}

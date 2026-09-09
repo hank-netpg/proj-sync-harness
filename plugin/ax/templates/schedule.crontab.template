@@ -1,0 +1,4 @@
+# ax 자율 스케줄러 — 매일 자정 사업 폴더 동기화 (이현수 Reply4)
+# 설치: crontab -e 에 아래 줄 추가({PROJECT_DIR}·{PLUGIN} 치환). 사업 폴더별 1행.
+# 매일 00:00 — slack-pull → categorize → dispatch 판정 → revision commit
+0 0 * * * cd {PROJECT_DIR} && bash {PLUGIN}/scripts/slack_download.sh >> .proj-sync/cron.log 2>&1 && bash {PLUGIN}/scripts/github_push.sh "auto: 매일 자정 동기화 $(date +\%F)" >> .proj-sync/cron.log 2>&1

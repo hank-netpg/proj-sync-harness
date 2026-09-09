@@ -1,0 +1,47 @@
+# proj-sync
+.env
+.proj-sync/state.json
+.proj-sync/slack-inbox-state.json
+.DS_Store
+
+# Claude Code — 개인/머신 종속 설정은 공유하지 않는다.
+#   settings.json 은 팀 공유분(커밋 대상), settings.local.json 은 본인 것이다.
+#   허용 규칙에 절대경로(/Users/…)가 섞이면 다른 사람 PC 에서 전부 무효가 된다.
+.claude/settings.local.json
+
+# proj-sync: 사무파일은 Google Drive(대용량 저장소)로 — GitHub 에는 마크다운(.md)·소스코드만
+*.hwp
+*.HWP
+*.hwpx
+*.HWPX
+*.doc
+*.DOC
+*.docx
+*.DOCX
+*.ppt
+*.PPT
+*.pptx
+*.PPTX
+*.xls
+*.XLS
+*.xlsx
+*.XLSX
+*.pdf
+*.PDF
+*.png
+*.PNG
+*.jpg
+*.JPG
+*.jpeg
+*.JPEG
+*.gif
+*.GIF
+*.zip
+*.ZIP
+
+# deliverables/ = 납품 Archive (고객 as-is 최종본). 전부 git 추적 — xlsx·hwp·ppt·pdf 최종본 포함.
+# 위 '사무파일→Google Drive'(A2) 의 대폭 예외: Archive 는 로컬 git 이 SSOT. (ARCHITECTURE §2-4)
+!deliverables/**
+
+# 회의록 생성기 스켈레톤(양식 마스터)은 git 추적 — build_minutes.py 가 사용(도구 입력, 납품본 아님).
+!reference/form/회의록-양식.hwpx

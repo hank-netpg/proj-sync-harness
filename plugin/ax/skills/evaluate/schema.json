@@ -1,0 +1,9 @@
+{"$schema":"http://json-schema.org/draft-07/schema#","type":"object",
+ "required":["round","score","위원"],
+ "properties":{"round":{"type":"integer"},"score":{"type":"number"},"target":{"type":"number"},
+  "위원":{"type":"array","items":{"type":"object","required":["id","감점"],
+   "properties":{"id":{"type":"string"},"역할":{"type":"string"},"감점":{"type":"number"},
+    "findings":{"type":"array","items":{"type":"object","required":["항목키","감점"],
+     "properties":{"항목키":{"type":"string"},"배점":{"type":"number"},"감점":{"type":"number"},
+      "근거":{"type":"string"},"개선지시":{"type":"string"},"page_id":{"type":"string"}}}}}}},
+  "종합":{"type":"number"},"개선_dispatch":{"type":"array"}}}

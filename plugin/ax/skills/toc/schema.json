@@ -1,0 +1,8 @@
+{"$schema":"http://json-schema.org/draft-07/schema#","type":"object","required":["chapters"],
+ "properties":{"chapters":{"type":"array","items":{"type":"object","required":["id","title","sections"],
+  "properties":{"id":{"type":"string"},"title":{"type":"string"},"sections":{"type":"array","items":{"type":"object",
+   "required":["id","title"],"properties":{"id":{"type":"string"},"title":{"type":"string"},"배점":{"type":"number"},
+   "pages":{"type":"array","items":{"type":"object","required":["page_id","title"],"properties":{
+    "page_id":{"type":"string"},"title":{"type":"string"},"req_ids":{"type":"array","items":{"type":"string"}},
+    "담당":{"type":"string"},"협업":{"type":"array"},"스토리라인":{"type":"string"},"산출물":{"type":"string"}}}}}}}}}},
+  "평가배점":{"type":"object"}}}

@@ -1,0 +1,47 @@
+# NOTICE — 제3자 코드 고지
+
+이 저장소는 아래 외부 저작물의 코드·설계를 일부 사용합니다.
+
+---
+
+## im-not-ai (MIT License)
+
+- 출처: https://github.com/epoko77-ai/im-not-ai
+- 저작권: Copyright (c) epoko77-ai
+- 라이선스: MIT
+
+**사용 범위** — 전체를 가져오지 않았습니다. 아래 두 가지만 파생했습니다.
+
+| proj-sync 파일 | 원본 | 가져온 것 |
+|---|---|---|
+| `plugin/ax/scripts/lib/sanitize.py` | `scripts/sanitize_text.py` | 제로폭·BOM·소프트하이픈·bidi 제어문자 제거 규칙. **NFD→NFC 정규화는 제외** — proj-sync 에 이미 있습니다(`notion_normalize.sh`·`slack_download.sh`·`gdrive_sync.sh`) |
+| `plugin/ax/scripts/lib/structure_gate.py` | `scripts/checks.py` | 결정론 게이트 설계와 실패코드 명명(`heading_lost`·`heading_absorbed`). 문체 축(`하였_injection`·`colloquial_erased` 등)은 이 경로에 해당하지 않아 제외 |
+| `plugin/ax/skills/draft/prompt.md` | `skills/humanize-korean/references/ai-tell-taxonomy.md` | 규칙 F-5("~적 N" 복합 추상어 체인) 1건의 정의·처방 |
+
+### MIT License 전문
+
+```
+MIT License
+
+Copyright (c) epoko77-ai
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR OTHER DEALINGS IN THE SOFTWARE.
+```
+
+**갱신 부담**: 파생 코드는 upstream 이 고쳐도 자동으로 따라가지 않습니다.
+원본이 갱신되면 위 표의 범위만 수동으로 대조하십시오.

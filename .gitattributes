@@ -1,0 +1,15 @@
+# Windows 에서 CRLF 로 깨지지 않도록 텍스트는 LF 로 통일
+* text=auto eol=lf
+*.sh   text eol=lf
+*.md   text eol=lf
+*.json text eol=lf
+# Windows 배치 파일은 cmd.exe 파싱을 위해 반드시 CRLF (LF면 명령 파싱이 깨짐)
+*.bat  text eol=crlf
+*.cmd  text eol=crlf
+# 바이너리(HWP/PPTX/PDF 등)는 변환 금지
+*.hwp  binary
+*.hwpx binary
+*.pptx binary
+*.pdf  binary
+*.png  binary
+*.xlsx binary

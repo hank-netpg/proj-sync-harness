@@ -1,0 +1,30 @@
+# proj-sync 도구 레포 — 사업 인스턴스 데이터는 두지 않는다(도구만)
+.env
+.DS_Store
+
+# 빌드 산출물 — build.sh 로 재현. 배포본은 GitHub Releases 에 첨부(zip 은 git 미추적)
+proj-sync.zip
+proj-sync-dist.zip
+dist/proj-sync.zip
+
+# 빌드 임시
+*.tmp
+.proj-sync/state.json
+.proj-sync/*.bak
+
+# 파이썬 바이트코드 캐시 — lib/ 안에서 모듈을 import 하면 생긴다(md_to_notion → sanitize).
+#   github_push 가 `git add -A` 로 쓸어 담으므로 여기서 막지 않으면 레포에 섞인다.
+__pycache__/
+*.pyc
+
+# 플러그인 본체의 git (서브트리로 포함 시)
+plugin/ax/.git/
+
+# 폴더 동기화 도구(iCloud·Dropbox 등)가 만드는 사본 — "이름 2.md", "이름 3.template" 꼴.
+#   2026-08-13 실측: v1.17.0 작업 중 새로 만든 파일마다 사본이 붙었고(문서 2·템플릿 2·zip 1),
+#   .git/refs/heads/main 2 까지 생겨 **fetch·pull 이 전면 차단**됐다("bad object").
+#   여기서 막는 건 레포 오염뿐이다 — .git 손상은 저장소 폴더를 동기화 대상에서 빼야 끝난다.
+* [2-9].*
+* [2-9]
+*\ copy.*
+*\ copy
